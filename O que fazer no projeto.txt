@@ -1,0 +1,6 @@
+#Vamos querer fazer uma ferramenta do Arthur 2.0
+#Temos que usar o panda para puxar o BD em excel
+#Colocar gráficos de soma dos impactos (ano do incio ate o final)
+#Colocar gráficos solos de supermercados
+#Sua evolução durante meses e anos com a gente
+#Uma analise preditiva de como vai ser daqui de 3 em 3 meses
