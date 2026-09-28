@@ -1,6 +1,85 @@
-#Vamos querer fazer uma ferramenta do Arthur 2.0
-#Temos que usar o panda para puxar o BD em excel
-#Colocar gráficos de soma dos impactos (ano do incio ate o final)
-#Colocar gráficos solos de supermercados
-#Sua evolução durante meses e anos com a gente
-#Uma analise preditiva de como vai ser daqui de 3 em 3 meses
+# ==============================================================================
+# 1. IMPORTAÇÃO DE BIBLIOTECAS
+# ==============================================================================
+# Aqui você vai importar o Pandas (manipulação de dados), 
+# Streamlit (criação da interface web e gráficos), e os módulos 
+# necessários do Scikit-Learn (para a análise preditiva).
+# Pense também se precisará de alguma biblioteca extra para gráficos (ex: Plotly ou o próprio Streamlit charts).
+
+
+# ==============================================================================
+# 2. CARREGAMENTO DOS DADOS (O Banco de Dados)
+# ==============================================================================
+# Como você já tem o CSV, use o Pandas para ler esse arquivo aqui.
+# Dica: No Streamlit, é uma boa prática usar um "decorator" de cache 
+# (@st.cache_data) acima da função de carregar dados para o app não ficar 
+# lendo o CSV toda vez que você clicar em um botão.
+
+
+# ==============================================================================
+# 3. TRATAMENTO E LÓGICAS DE NEGÓCIO (Limpeza e Criação de Variáveis)
+# ==============================================================================
+# Aqui você vai usar o Pandas para preparar o terreno.
+# - Crie a lógica do "Faturamento de padaria (Baseado em um valor imaginário)".
+# - Crie a lógica para calcular "Qual o valor o cliente pagaria de alta de inflação".
+# - Limpe os dados se houver valores nulos nas colunas de problemas fiscais 
+#   (ICMS ST, PIS/COFINS, NCM, Monofásico e Alíquota zero).
+
+
+# ==============================================================================
+# 4. MODELAGEM REPOSITÓRIO / MACHINE LEARNING (Scikit-Learn)
+# ==============================================================================
+# Este é o bloco da sua "Análise preditiva de 3 em 3 meses".
+# - Separe os dados entre as features (o que explica o resultado) e o target (o que você quer prever).
+# - Divida os dados em treino e teste.
+# - Instancie o modelo escolhido do sklearn (Regressão? Classificação? Séries temporais?).
+# - Treine o modelo e gere as previsões para os próximos 3 meses.
+# Obs: Você pode deixar para rodar o modelo apenas quando o usuário pedir, ou deixar pré-calculado.
+
+
+# ==============================================================================
+# 5. CONFIGURAÇÃO DA INTERFACE STREAMLIT (Visualização dos dados)
+# ==============================================================================
+# Comece definindo o título da sua página (st.title).
+
+
+# ==============================================================================
+# 5.1 FILTROS (Sidebar)
+# ==============================================================================
+# Crie os filtros interativos que vão alterar os dados dos gráficos.
+# Geralmente colocamos isso na barra lateral (st.sidebar).
+# - Crie um filtro para analisar cada Supervisor ("sup") separadamente.
+# - Crie um filtro para cada tipo de problema (ICMS ST, PIS/COFINS, NCM, etc.).
+# - Crie um filtro de tempo (mês e ano).
+
+
+# ==============================================================================
+# 5.2 APLICAÇÃO DOS FILTROS NO DATAFRAME
+# ==============================================================================
+# Aqui você pega o dataframe original (passo 2) e filtra ele baseado 
+# nas escolhas que o usuário fez no passo 5.1 usando o Pandas.
+# O resto da aplicação vai usar ESSE dataframe filtrado.
+
+
+# ==============================================================================
+# 6. GRÁFICOS E MÉTRICAS NA TELA PRINCIPAL
+# ==============================================================================
+# Agora você vai pegar o seu dataframe filtrado e plotar os gráficos que planejou.
+# Pode usar st.bar_chart, st.line_chart, ou outras bibliotecas.
+
+# Gráfico 1: Impacto (filtrado por todos ou um sup / filtrado por mês e ano).
+# (Insira o código do gráfico aqui)
+
+# Gráfico 2: Tipo de impacto e top sup com erros agrupados.
+# (Insira o código do gráfico aqui)
+
+# Gráfico 3 / Métricas: Maior faturamento e faturamento padaria.
+# Dica: Talvez usar st.metric() para mostrar números grandes fique bem legal aqui.
+# (Insira o código do gráfico aqui)
+
+# Gráfico 4: Performance anual de cada sup.
+# (Insira o código do gráfico aqui)
+
+# Seção 5: Exibição da Análise Preditiva.
+# Mostre os resultados que o Scikit-Learn calculou no Passo 4 (em tabela ou gráfico).
+# (Insira o código aqui)
