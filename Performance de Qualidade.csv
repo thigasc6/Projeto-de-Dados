@@ -1,4 +1,4 @@
-﻿Nome Super;Faturamento Sup.;Faturamento Pad.;Economia ICMS;Pago a Maior ICMS;Pago a menor ICMS;Alíquota Incorreta;CST;CFOP;NCM;Alíquota PIS/COFINS;CST PIS/COFINS;Risco PIS;Risco COFINS;Monofásico;Alíquota Zero;Mês;Ano;CBENEF;Situação;Cidade;Envio;Padaria;Tipo Cliente;ID;Categoria
+﻿Nome Super;Faturamento Sup.;Faturamento Pad.;Economia ICMS;Pago a Maior ICMS;Pago a Menor ICMS;Alíquota Incorreta;CST;CFOP;NCM;Alíquota PIS/COFINS;CST PIS/COFINS;Risco PIS;Risco COFINS;Monofásico;Alíquota Zero;Mês;Ano;CBENEF;Situação;Cidade;Envio;Padaria;Tipo Cliente;ID;Categoria
 AÇOUGUE DO PEDRO;392555,07;0;0;42,65;29,12;16;4;3;0;6;6;2,6;11,88;0;32,38;7;2026;178;ATIVO;TRINDADE;Dia 10;NÃO;SUPERMERCADO;130;BRONZE
 AÇOUGUE DO PEDRO;372532,1;0;0;1,48;20,4;24;2;2;0;5;5;0,65;0;0;10,77;6;2026;166;ATIVO;TRINDADE;Dia 10;NÃO;SUPERMERCADO;130;BRONZE
 AÇOUGUE DO PEDRO;354664,36;0;0;7,34;52,97;47;1;1;0;11;67;3,36;15,45;0;62,49;5;2026;81;ATIVO;TRINDADE;Dia 10;NÃO;SUPERMERCADO;130;BRONZE

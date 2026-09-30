@@ -1,6 +1,8 @@
 import pandas as pd
-import streamlit as st
 import time
+import streamlit as st
+import plotly.express as px
+
 
 #==============================Decorador==============================#
 
@@ -71,5 +73,27 @@ filtros_mes_sup = st.sidebar.selectbox('Selecione um Mês', mes_sup)
 if 'Todos' != filtros_mes_sup:
     tabela_final = tabela_final[tabela_final['Mês'] == filtros_mes_sup]
 
-st.dataframe(tabela_final)
+tabela_final['Periodo'] = tabela_final['Ano'].astype(str) + '-' + tabela_final['Mês'].astype(str)
 
+tabela_final['Pago a Maior ICMS'] = tabela_final['Pago a Maior ICMS'].str.replace(',', '.').astype(float)
+
+tabela_final['Pago a Menor ICMS'] = tabela_final['Pago a Menor ICMS'].str.replace(',', '.').astype(float)
+
+tabela_final['Risco PIS'] = tabela_final['Risco PIS'].str.replace(',', '.').astype(float)
+
+tabela_final['Risco COFINS'] = tabela_final['Risco COFINS'].str.replace(',', '.').astype(float)
+
+tabela_agrupada = tabela_final.groupby(['Periodo'])[['Pago a Maior ICMS', 'Pago a Menor ICMS', 'Risco PIS', 'Risco COFINS']].sum().reset_index()
+
+grafico_barra = px.bar(tabela_agrupada, x = 'Periodo', y = ['Pago a Maior ICMS','Pago a Menor ICMS'], text_auto=True)
+grafico_linhas = px.line(tabela_agrupada, x = 'Periodo', y = ['Risco PIS','Risco COFINS'])
+
+st.plotly_chart(grafico_barra)
+st.plotly_chart(grafico_linhas)
+
+tabela_final['Total Impacto'] = tabela_final['Pago a Maior ICMS'] + tabela_final['Pago a Menor ICMS'] + tabela_final['Risco PIS'] + tabela_final['Risco COFINS']
+
+mercados_criticos = tabela_final[tabela_final['Total Impacto'] > 1000]
+
+grafico_pizza = px.pie(mercados_criticos, names = 'Nome Super', values = 'Total Impacto')
+st.plotly_chart(grafico_pizza)
