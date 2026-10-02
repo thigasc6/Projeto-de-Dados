@@ -9,15 +9,10 @@ import plotly.express as px
 def monitorar_tempo(funçao_alvo):
 
     def embrulho(*args,**kwargs):
-        tempo_inicio = time.time()
         resultado = funçao_alvo(*args, **kwargs)
-        tempo_final = time.time()
-        tempo_resultado = tempo_final - tempo_inicio
-        print(tempo_resultado)
         return resultado
     return embrulho
 
-@monitorar_tempo
 @st.cache_data
 
 def ler_csv():
@@ -69,6 +64,10 @@ filtros_mes_sup = st.sidebar.selectbox('Selecione um Mês', mes_sup)
 if 'Todos' != filtros_mes_sup:
     tabela_final = tabela_final[tabela_final['Mês'] == filtros_mes_sup]
 
+if tabela_final.empty:
+    st.warning('Nenhum dado encontrado para os filtros selecionados.')
+    st.stop()
+
 #=====================Limpeza de Dados p/ Graficos======================#
 
 tabela_final['Periodo'] = tabela_final['Ano'].astype(str) + '-' + tabela_final['Mês'].astype(str)
@@ -87,19 +86,47 @@ tabela_agrupada['Periodo'] = pd.to_datetime(tabela_agrupada['Periodo'])
 
 tabela_agrupada = tabela_agrupada.sort_values(by='Periodo')
 
-tabela_agrupada['Risco Consolidado'] = tabela_agrupada['Risco PIS'] + tabela_agrupada['Risco COFINS']
-
 #===========================Graficos Tratatados===========================#
 
 grafico_barra = px.bar(tabela_agrupada, x = 'Periodo', y = ['Pago a Maior ICMS','Pago a Menor ICMS'], text_auto=True)
-grafico_linhas = px.line(tabela_agrupada, x = 'Periodo', y = ['Risco Consolidado'])
+
+st.subheader('Risco de ICMS Pag. a Maior e Pag. a Menor')
 
 st.plotly_chart(grafico_barra)
+
+#==========================================================================#
+
+grafico_linhas = px.line(tabela_agrupada, x = 'Periodo', y = ['Risco PIS', 'Risco COFINS'])
+
+st.subheader('Risco Pis e Cofins')
+
 st.plotly_chart(grafico_linhas)
 
-tabela_final['Total Impacto'] = tabela_final['Pago a Maior ICMS'] + tabela_final['Pago a Menor ICMS'] + tabela_final['Risco PIS'] + tabela_final['Risco COFINS']
+#==========================================================================#
 
-mercados_criticos = tabela_final[tabela_final['Total Impacto'] > 100000]
+tabela_final['Faturamento Sup.'] = tabela_final['Faturamento Sup.'].str.replace(',','.').astype(float)
 
-grafico_pizza = px.pie(mercados_criticos, names = 'Nome Super', values = 'Total Impacto')
-st.plotly_chart(grafico_pizza)
+top10agrupados = tabela_final.groupby(['Nome Super'])[['Faturamento Sup.']].sum().reset_index()
+
+maioresfat =  top10agrupados.nlargest(10,'Faturamento Sup.')
+
+grafico_top10 = px.pie(maioresfat, names = 'Nome Super', values = 'Faturamento Sup.')
+
+st.subheader('Top 10 Maiores Faturamentos ')
+
+st.plotly_chart(grafico_top10)
+
+
+#==========================================================================#
+
+tabela_final['Faturamento Pad.'] = tabela_final['Faturamento Pad.'].str.replace(',','.').astype(float)
+
+top10pad_agrupados = tabela_final.groupby(['Nome Super'])[['Faturamento Pad.']].sum().reset_index()
+
+maioresfat_pad = top10pad_agrupados.nlargest(10, 'Faturamento Pad.')
+
+grafico_top10_pad = px.pie(maioresfat_pad, names = 'Nome Super', values = 'Faturamento Pad.')
+
+st.subheader('Top 10 Faturamento Padaria')
+
+st.plotly_chart(grafico_top10_pad)
